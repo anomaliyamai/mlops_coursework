@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  mlflow:
+    build:
+      context: mlflow
+    container_name: mlflow_for_rest
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+  fastapi:
+    build:
+      context: fastapi
+    container_name: fastapi
+    restart: unless-stopped
+    ports:
+      - "1000:1000"
+    depends_on: [mlflow]
