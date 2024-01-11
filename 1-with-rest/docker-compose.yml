@@ -8,11 +8,15 @@ services:
     restart: unless-stopped
     ports:
       - "5000:5000"
+  model_load:
+    build:
+      context: model_load
+    container_name: model_load_for_rest
+    depends_on: [mlflow]
   fastapi:
     build:
       context: fastapi
     container_name: fastapi
-    restart: unless-stopped
     ports:
       - "1000:1000"
-    depends_on: [mlflow]
+    depends_on: [mlflow, model_load]

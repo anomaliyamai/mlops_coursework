@@ -6,7 +6,7 @@ from sklearn.tree import DecisionTreeClassifier
 import mlflow.sklearn
 from mlflow.models import infer_signature
 
-mlflow.set_tracking_uri("http://localhost:5000")
+mlflow.set_tracking_uri("http://mlflow:5000")
 
 with mlflow.start_run() as run:
     X, y = make_moons(noise=0.2, random_state=42)
