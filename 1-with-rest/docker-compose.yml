@@ -8,15 +8,12 @@ services:
     restart: unless-stopped
     ports:
       - "5000:5000"
-  model_load:
-    build:
-      context: model_load
-    container_name: model_load_for_rest
-    depends_on: [mlflow]
   fastapi:
     build:
       context: fastapi
     container_name: fastapi
+    environment:
+      - production_model=3911c837fd9a4968a19e317485ce311f
     ports:
       - "1000:1000"
-    depends_on: [mlflow, model_load]
+    depends_on: [mlflow]

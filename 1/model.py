@@ -9,7 +9,7 @@ from mlflow.models import infer_signature
 
 mlflow.set_tracking_uri("http://localhost:5000")
 
-with mlflow.start_run():
+with mlflow.start_run() as run:
     X, y = make_moons(noise=0.2, random_state=42)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 
@@ -25,3 +25,4 @@ with mlflow.start_run():
         signature=signature,
         registered_model_name="sk-learn-decision-tree-reg-model",
     )
+    print(run.info.run_id)
