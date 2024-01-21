@@ -13,7 +13,7 @@ services:
       context: fastapi
     container_name: fastapi
     environment:
-      - production_model=3911c837fd9a4968a19e317485ce311f
+      - production_model=ef7237e244a44992aff8e8a4b3979201
     ports:
       - "1000:1000"
     depends_on: [mlflow]
