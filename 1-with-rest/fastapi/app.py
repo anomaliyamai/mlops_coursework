@@ -1,5 +1,8 @@
 import logging
+from dotenv import load_dotenv
+import sys
 import mlflow
+import uvicorn
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from mlflow.pyfunc import load_model
@@ -22,7 +25,10 @@ class Data(BaseModel):
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logging.basicConfig(level=logging.INFO, filename="rest.log", filemode="w")
+    logging.basicConfig(level=logging.INFO, handlers=[
+        logging.FileHandler(filename="rest.log", mode="w"),
+        logging.StreamHandler(sys.stdout)
+    ])
     yield
 
 
@@ -63,3 +69,9 @@ async def update() -> None:
             registered_model_name="sk-learn-decision-tree-reg-model",
         )
         logging.info(f'successful /update call, created model with run_id: {run.info.run_id}')
+
+
+if __name__ == "__main__":
+    load_dotenv('../.env')
+    uvicorn.run(app='app:app', host=os.environ.get("REST_SERVICE_HOST"),
+                port=int(os.environ.get("REST_SERVICE_DOCKER_PORT")), reload=True)

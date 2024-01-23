@@ -7,7 +7,7 @@ services:
     container_name: mlflow_for_rest
     restart: unless-stopped
     ports:
-      - "5000:5000"
+      - "${MLFLOW_HOST_PORT}:${MLFLOW_DOCKER_PORT}"
   fastapi:
     build:
       context: fastapi
@@ -15,5 +15,5 @@ services:
     environment:
       - production_model=ef7237e244a44992aff8e8a4b3979201
     ports:
-      - "1000:1000"
+      - "${REST_SERVICE_HOST_PORT}:${REST_SERVICE_DOCKER_PORT}"
     depends_on: [mlflow]

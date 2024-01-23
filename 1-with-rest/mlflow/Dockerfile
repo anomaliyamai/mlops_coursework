@@ -1,3 +1,5 @@
 FROM service
 LABEL authors="olegafanasev"
-CMD mlflow server --host 0.0.0.0
+WORKDIR mlflow
+COPY . .
+CMD python mlflow-server.py
