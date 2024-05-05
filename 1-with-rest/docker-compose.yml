@@ -1,6 +1,11 @@
 version: '3.8'
 
 services:
+  redis:
+    image: "redis:alpine"
+    restart: always
+    ports:
+      - "6379:6379"
   mlflow:
     build:
       context: mlflow
@@ -8,6 +13,7 @@ services:
     restart: unless-stopped
     ports:
       - "${MLFLOW_HOST_PORT}:${MLFLOW_DOCKER_PORT}"
+    depends_on: [redis]
   fastapi:
     build:
       context: fastapi
@@ -16,4 +22,12 @@ services:
       - production_model=ef7237e244a44992aff8e8a4b3979201
     ports:
       - "${REST_SERVICE_HOST_PORT}:${REST_SERVICE_DOCKER_PORT}"
-    depends_on: [mlflow]
+    depends_on: [mlflow, redis]
+  celery:
+    build:
+      context: fastapi/worker
+    container_name: celery_worker
+    restart: always
+    environment:
+      - production_model=ef7237e244a44992aff8e8a4b3979201
+    depends_on: [mlflow, redis]

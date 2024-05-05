@@ -10,4 +10,6 @@ RUN pip install mlflow-skinny &&  \
     pip install pandas &&  \
     pip install fastapi && \
     pip install uvicorn && \
-    pip3 install python-dotenv \
+    pip3 install python-dotenv && \
+    pip install celery && \
+    pip install redis
