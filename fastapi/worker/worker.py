@@ -37,12 +37,10 @@ def update():
     with mlflow.start_run() as run:
         X, y = make_circles(noise=0.2, factor=0.5, random_state=42)
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
-
         clf = DecisionTreeClassifier()
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
         signature = infer_signature(X_test, y_pred)
-
         mlflow.log_metrics({"accuracy": accuracy_score(y_test, y_pred)})
         mlflow.sklearn.log_model(
             sk_model=clf,

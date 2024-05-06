@@ -5,7 +5,7 @@ services:
     image: "redis:alpine"
     restart: always
     ports:
-      - "6379:6379"
+      - "${REDIS_HOST_PORT}:${REDIS_DOCKER_PORT}"
   mlflow:
     build:
       context: mlflow
